@@ -92,15 +92,17 @@ export default class GameScene extends Phaser.Scene {
         const playerRow = 3;
         const playerX = playerColumn * TILE_SIZE + TILE_SIZE / 2;
         const playerY = playerRow * TILE_SIZE + TILE_SIZE / 2;
+        this.room = new Room(TestRoom);
+        this.drawRoom();
         this.player = new Player(
             this,
-            playerX,
-            playerY
+            playerColumn,
+            playerRow,
+            this.room
         );
        // this.drawGrid();
         
-       this.room = new Room(TestRoom);
-        this.drawRoom();
+       
 
         this.cursors = this.input.keyboard!.createCursorKeys();
         
