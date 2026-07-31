@@ -1,46 +1,29 @@
 import Phaser from "phaser";
+import Player from "../entities/Player";
 
 export default class GameScene extends Phaser.Scene {
 
-    private player!: Phaser.GameObjects.Rectangle;
-
+    private player!: Player;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 
     constructor() {
         super("GameScene");
     }
 
-    create(): void {
+    create() {
 
-        this.player = this.add.rectangle(
+        this.player = new Player(
+            this,
             240,
-            400,
-            24,
-            24,
-            0xffff00
+            400
         );
 
         this.cursors = this.input.keyboard!.createCursorKeys();
     }
 
-    update(): void {
+    update() {
 
-        const speed = 3;
+        this.player.move(this.cursors);
 
-        if (this.cursors.left.isDown) {
-            this.player.x -= speed;
-        }
-
-        if (this.cursors.right.isDown) {
-            this.player.x += speed;
-        }
-
-        if (this.cursors.up.isDown) {
-            this.player.y -= speed;
-        }
-
-        if (this.cursors.down.isDown) {
-            this.player.y += speed;
-        }
     }
 }
