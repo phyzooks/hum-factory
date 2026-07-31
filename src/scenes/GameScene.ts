@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import Player from "../entities/Player";
 import Machine from "../entities/Machine";
 import Room from "../world/Room";
+import { TestRoom } from "../world/rooms/TestRoom";
+import Tile from "../entities/Tile";
 
 import {
     TILE_SIZE,
@@ -63,13 +65,12 @@ export default class GameScene extends Phaser.Scene {
 
             if (tile === 1) {
 
-                this.add.rectangle(
-                    col * TILE_SIZE + TILE_SIZE / 2,
-                    row * TILE_SIZE + TILE_SIZE / 2,
-                    TILE_SIZE,
-                    TILE_SIZE,
-                    0x555555
-                );
+                new Tile(
+                this,
+                col * TILE_SIZE + TILE_SIZE / 2,
+                row * TILE_SIZE + TILE_SIZE / 2,
+                0x555555
+);
 
             }
 
@@ -96,9 +97,9 @@ export default class GameScene extends Phaser.Scene {
             playerX,
             playerY
         );
-        this.drawGrid();
+       // this.drawGrid();
         
-        this.room = new Room();
+       this.room = new Room(TestRoom);
         this.drawRoom();
 
         this.cursors = this.input.keyboard!.createCursorKeys();

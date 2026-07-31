@@ -1,16 +1,22 @@
+import { RoomData } from "./RoomData";
+
 export default class Room {
 
     public tiles: number[][];
 
-    constructor() {
+    public width: number;
 
-        this.tiles = [
-            [1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,1],
-            [1,0,0,2,0,0,1],
-            [1,0,0,0,0,0,1],
-            [1,1,1,1,1,1,1]
-        ];
+    public height: number;
+
+
+    constructor(data: RoomData) {
+
+        this.tiles = data.tiles;
+
+        this.width = data.width;
+
+        this.height = data.height;
 
     }
+
 }
