@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import Player from "../entities/Player";
 import Machine from "../entities/Machine";
+import Room from "../world/Room";
 
 import {
     TILE_SIZE,
@@ -13,6 +14,7 @@ export default class GameScene extends Phaser.Scene {
     private player!: Player;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     private machine!: Machine;
+    private room!: Room;
     constructor() {
         super("GameScene");
     }
@@ -49,11 +51,44 @@ export default class GameScene extends Phaser.Scene {
     }
 
     graphics.strokePath();
+    }
+
+    private drawRoom(): void {
+
+    for (let row = 0; row < this.room.tiles.length; row++) {
+
+        for (let col = 0; col < this.room.tiles[row].length; col++) {
+
+            const tile = this.room.tiles[row][col];
+
+            if (tile === 1) {
+
+                this.add.rectangle(
+                    col * TILE_SIZE + TILE_SIZE / 2,
+                    row * TILE_SIZE + TILE_SIZE / 2,
+                    TILE_SIZE,
+                    TILE_SIZE,
+                    0x555555
+                );
+
+            }
+
+            if (tile === 2) {
+
+                new Machine(
+                    this,
+                    col * TILE_SIZE + TILE_SIZE / 2,
+                    row * TILE_SIZE + TILE_SIZE / 2
+                );
+
+            }
+        }
+    }
 }
     create() {
-
-        const playerColumn = 7;
-        const playerRow = 12;
+        
+        const playerColumn = 3;
+        const playerRow = 3;
         const playerX = playerColumn * TILE_SIZE + TILE_SIZE / 2;
         const playerY = playerRow * TILE_SIZE + TILE_SIZE / 2;
         this.player = new Player(
@@ -62,18 +97,13 @@ export default class GameScene extends Phaser.Scene {
             playerY
         );
         this.drawGrid();
+        
+        this.room = new Room();
+        this.drawRoom();
+
         this.cursors = this.input.keyboard!.createCursorKeys();
-        const machineColumn = 4;
-        const machineRow = 4;
-
-        const machineX = machineColumn * TILE_SIZE+ TILE_SIZE / 2;
-        const machineY = machineRow * TILE_SIZE+ TILE_SIZE / 2;
-
-        this.machine = new Machine(
-                this,
-                machineX,
-                machineY
-        );
+        
+        
     }
 
     update() {
