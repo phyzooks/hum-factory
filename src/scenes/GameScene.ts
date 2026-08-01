@@ -4,19 +4,20 @@ import Machine from "../entities/Machine";
 import Room from "../world/Room";
 import { TestRoom } from "../world/rooms/TestRoom";
 import Tile from "../entities/Tile";
+import TileType from "../world/TileType";
 
 import {
     TILE_SIZE,
-    ROOM_WIDTH,
-    ROOM_HEIGHT
+    
 } from "../constants";
 
 export default class GameScene extends Phaser.Scene {
 
     private player!: Player;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-    private machine!: Machine;
+    //private machine!: Machine;
     private room!: Room;
+    
     constructor() {
         super("GameScene");
     }
@@ -26,7 +27,7 @@ export default class GameScene extends Phaser.Scene {
 
     graphics.lineStyle(1, 0x444444);
 
-    for (let x = 0; x <= ROOM_WIDTH; x++) {
+    for (let x = 0; x <= this.room.width; x++) {
 
         graphics.moveTo(
             x * TILE_SIZE,
@@ -35,11 +36,11 @@ export default class GameScene extends Phaser.Scene {
 
         graphics.lineTo(
             x * TILE_SIZE,
-            ROOM_HEIGHT * TILE_SIZE
+            this.room.height * TILE_SIZE
         );
     }
 
-    for (let y = 0; y <= ROOM_HEIGHT; y++) {
+    for (let y = 0; y <= this.room.height; y++) {
 
         graphics.moveTo(
             0,
@@ -47,7 +48,7 @@ export default class GameScene extends Phaser.Scene {
         );
 
         graphics.lineTo(
-            ROOM_WIDTH * TILE_SIZE,
+            this.room.width * TILE_SIZE,
             y * TILE_SIZE
         );
     }
@@ -63,18 +64,18 @@ export default class GameScene extends Phaser.Scene {
 
             const tile = this.room.tiles[row][col];
 
-            if (tile === 1) {
+            if (tile === TileType.WALL) {
 
                 new Tile(
                 this,
                 col * TILE_SIZE + TILE_SIZE / 2,
                 row * TILE_SIZE + TILE_SIZE / 2,
                 0x555555
-);
+            );
 
             }
 
-            if (tile === 2) {
+            if (tile === TileType.MACHINE) {
 
                 new Machine(
                     this,
@@ -86,9 +87,17 @@ export default class GameScene extends Phaser.Scene {
         }
     }
 }
+    preload() {
+
+        this.load.audio(
+            "factory_hum",
+            "assets/audio/factory_hum.wav"
+        );
+
+    }
     create() {
         
-        const playerColumn = 3;
+        const playerColumn = 2;
         const playerRow = 3;
         const playerX = playerColumn * TILE_SIZE + TILE_SIZE / 2;
         const playerY = playerRow * TILE_SIZE + TILE_SIZE / 2;
@@ -100,7 +109,7 @@ export default class GameScene extends Phaser.Scene {
             playerRow,
             this.room
         );
-       // this.drawGrid();
+       this.drawGrid();
         
        
 
@@ -111,7 +120,9 @@ export default class GameScene extends Phaser.Scene {
 
     update() {
 
-        this.player.move(this.cursors);
+    this.player.requestMove(this.cursors);
 
-    }
+    this.player.updateMovement();
+
+}
 }

@@ -1,17 +1,78 @@
 import { RoomData } from "../RoomData";
+import TileType from "../TileType";
+
 
 export const TestRoom: RoomData = {
 
-    width: 7,
-
-    height: 5,
-
+   
     tiles: [
-        [1,1,1,1,1,1,1],
-        [1,0,0,0,0,0,1],
-        [1,0,0,2,0,0,1],
-        [1,0,0,0,0,0,1],
-        [1,1,1,1,1,1,1]
+
+    [
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL
+    ],
+
+    [
+        TileType.WALL,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.WALL
+    ],
+    [
+        TileType.WALL,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.WALL
+    ],
+    [
+        TileType.WALL,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.MACHINE,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.WALL
+    ],
+
+    [
+        TileType.WALL,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.WALL
+    ],
+    [
+        TileType.WALL,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.FLOOR,
+        TileType.WALL
+    ],
+
+    [
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL,
+        TileType.WALL
     ]
+]
 
 };

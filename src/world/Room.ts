@@ -1,4 +1,5 @@
 import { RoomData } from "./RoomData";
+import TileType from "../world/TileType";
 
 export default class Room {
 
@@ -20,17 +21,17 @@ export default class Room {
 
     const tile = this.tiles[row][column];
 
-    return tile === 0;
+    return tile === TileType.FLOOR;
 
     }
     constructor(data: RoomData) {
 
-        this.tiles = data.tiles;
+    this.tiles = data.tiles;
 
-        this.width = data.width;
+    this.height = this.tiles.length;
 
-        this.height = data.height;
+    this.width = this.tiles[0].length;
 
-    }
+}
 
 }

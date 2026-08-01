@@ -4,20 +4,22 @@ import Room from "../world/Room";
 
 export default class Player extends Phaser.GameObjects.Rectangle {
 
-    private speed = 3;
     private column: number;
     private row: number;
     private room: Room;
-
+    private moveDelay = 120;
+    private lastMove = 0;
+    private moving = false;
+    private targetX = 0;
+    private targetY = 0;
+    private moveSpeed = 2;
+    
    constructor(
     scene: Phaser.Scene,
     column: number,
     row: number,
     room: Room
 ) {
-
-        
-
     super(
         scene,
         column * TILE_SIZE + TILE_SIZE / 2,
@@ -27,60 +29,91 @@ export default class Player extends Phaser.GameObjects.Rectangle {
         0xffff00
         );
     this.room = room;
-        this.column = column;
-            this.row = row;
-            scene.add.existing(this);
-        }
-        private moveDelay = 120;
-        private lastMove = 0;
-        private moving = false;
-    public move(
+    this.column = column;
+    this.row = row;
+    scene.add.existing(this);
+}
+
+    
+    
+    public requestMove(
     cursors: Phaser.Types.Input.Keyboard.CursorKeys
-): void {
-
-    if (Date.now() - this.lastMove < this.moveDelay) {
+    ): void {
+        if (this.moving) {
         return;
-    }
+        }
+        if (Date.now() - this.lastMove < this.moveDelay) {
+            return;
+        }
 
-    let newColumn = this.column;
-    let newRow = this.row;
+        let newColumn = this.column;
+        let newRow = this.row;
 
-    if (cursors.left.isDown) {
-        newColumn--;
-    }
+        if (cursors.left.isDown) {
+            newColumn--;
+        }
 
-    else if (cursors.right.isDown) {
-        newColumn++;
-    }
+        else if (cursors.right.isDown) {
+            newColumn++;
+        }
 
-    else if (cursors.up.isDown) {
-        newRow--;
-    }
+        else if (cursors.up.isDown) {
+            newRow--;
+        }
 
-    else if (cursors.down.isDown) {
-        newRow++;
-    }
+        else if (cursors.down.isDown) {
+            newRow++;
+        }
 
-    if (
-        newColumn !== this.column ||
-        newRow !== this.row
-    ) {
+        if (
+            newColumn !== this.column ||
+            newRow !== this.row
+        ) {
 
-        if (this.room.isWalkable(newColumn, newRow)) {
+            if (this.room.isWalkable(newColumn, newRow)) {
 
-            this.column = newColumn;
+                this.column = newColumn;
             this.row = newRow;
 
-            this.x =
+            this.targetX =
                 this.column * TILE_SIZE +
                 TILE_SIZE / 2;
 
-            this.y =
+            this.targetY =
                 this.row * TILE_SIZE +
                 TILE_SIZE / 2;
 
-            this.lastMove = Date.now();
+            this.moving = true;
+            }
         }
-    }
+}
+    public updateMovement(): void {
+
+        if (!this.moving) {
+            return;
+        }
+
+        if (this.x < this.targetX) {
+            this.x += this.moveSpeed;
+        }
+
+        if (this.x > this.targetX) {
+            this.x -= this.moveSpeed;
+        }
+
+        if (this.y < this.targetY) {
+            this.y += this.moveSpeed;
+        }
+
+        if (this.y > this.targetY) {
+            this.y -= this.moveSpeed;
+        }
+
+        if (
+            this.x === this.targetX &&
+            this.y === this.targetY
+        ) {
+            this.moving = false;
+        }
 }
 }
