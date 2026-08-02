@@ -79,10 +79,12 @@ export default class GameScene extends Phaser.Scene {
             if (tile === TileType.MACHINE) {
 
                 this.machine = new Machine(
-                    this,
-                    col * TILE_SIZE + TILE_SIZE / 2,
-                    row * TILE_SIZE + TILE_SIZE / 2
-                );
+                this,
+                col * TILE_SIZE + TILE_SIZE / 2,
+                row * TILE_SIZE + TILE_SIZE / 2,
+                col,
+                row
+            );
 
             }
         }
@@ -143,11 +145,20 @@ export default class GameScene extends Phaser.Scene {
 
         this.machine.interact();
     }
-    if (Phaser.Input.Keyboard.JustDown(this.oilKey)) {
+    if (Phaser.Input.Keyboard.JustDown(this.oilKey)) {if (
+    this.player.isAdjacentTo(
+        this.machine.getRow(),
+        this.machine.getColumn()
+    )
+) {
+
     if (this.player.useOil()) {
+
         this.machine.applyOil();
+
     }
+
 }
-   
+   }
 }
 }

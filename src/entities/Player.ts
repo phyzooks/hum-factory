@@ -55,6 +55,19 @@ export default class Player extends Phaser.GameObjects.Rectangle {
 
     }
     
+    public isAdjacentTo(
+        row: number,
+        column: number
+    ): boolean {
+
+        const rowDifference =
+            Math.abs(this.row - row);
+
+        const columnDifference =
+            Math.abs(this.column - column);
+
+        return rowDifference + columnDifference === 1;
+    }
     
     public requestMove(
     cursors: Phaser.Types.Input.Keyboard.CursorKeys

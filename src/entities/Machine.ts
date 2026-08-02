@@ -14,6 +14,8 @@ export default class Machine
     return this.condition;
 
 }
+    private row: number;
+    private column: number;
     private isSqueaking = false;
     private updateSound(): void {
         
@@ -85,10 +87,12 @@ export default class Machine
 }
 
     constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number
-    ) {
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    column: number,
+    row: number
+) {
         
         super(
             scene,
@@ -98,6 +102,9 @@ export default class Machine
             32,
             0x888888
         );
+        
+        this.column = column;
+        this.row = row;
         
         scene.add.existing(this);
         this.hum = scene.sound.add(
@@ -109,6 +116,13 @@ export default class Machine
         );
 
         this.hum.play();
+    }
+    public getRow(): number {
+        return this.row;
+    }
+
+    public getColumn(): number {
+        return this.column;
     }
     
 }
