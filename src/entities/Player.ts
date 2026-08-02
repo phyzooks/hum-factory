@@ -13,6 +13,7 @@ export default class Player extends Phaser.GameObjects.Rectangle {
     private targetX = 0;
     private targetY = 0;
     private moveSpeed = 2;
+    private oilAmount = 5;
     
    constructor(
     scene: Phaser.Scene,
@@ -33,7 +34,26 @@ export default class Player extends Phaser.GameObjects.Rectangle {
     this.row = row;
     scene.add.existing(this);
 }
+    public useOil(): boolean {
 
+        if (this.oilAmount <= 0) {
+
+            console.log("Oil can empty");
+
+            return false;
+
+        }
+
+        this.oilAmount--;
+
+        console.log(
+            "Oil remaining:",
+            this.oilAmount
+        );
+
+        return true;
+
+    }
     
     
     public requestMove(

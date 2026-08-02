@@ -8,14 +8,15 @@ import TileType from "../world/TileType";
 
 import {
     TILE_SIZE,
-    
-} from "../constants";
+    } from "../constants";
 
 export default class GameScene extends Phaser.Scene {
 
     private player!: Player;
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-    //private machine!: Machine;
+    private interactKey!: Phaser.Input.Keyboard.Key;
+    private oilKey!: Phaser.Input.Keyboard.Key;
+    private machine!: Machine;
     private room!: Room;
     
     constructor() {
@@ -77,7 +78,7 @@ export default class GameScene extends Phaser.Scene {
 
             if (tile === TileType.MACHINE) {
 
-                new Machine(
+                this.machine = new Machine(
                     this,
                     col * TILE_SIZE + TILE_SIZE / 2,
                     row * TILE_SIZE + TILE_SIZE / 2
@@ -101,6 +102,7 @@ export default class GameScene extends Phaser.Scene {
         const playerRow = 3;
         const playerX = playerColumn * TILE_SIZE + TILE_SIZE / 2;
         const playerY = playerRow * TILE_SIZE + TILE_SIZE / 2;
+        
         this.room = new Room(TestRoom);
         this.drawRoom();
         this.player = new Player(
@@ -114,15 +116,38 @@ export default class GameScene extends Phaser.Scene {
        
 
         this.cursors = this.input.keyboard!.createCursorKeys();
+        this.input.keyboard!.addKey(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+            );
+        this.interactKey =
+            this.input.keyboard!.addKey(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+            );
+        this.oilKey =
+            this.input.keyboard!.addKey(
+                Phaser.Input.Keyboard.KeyCodes.O
+            );
         
         
     }
 
-    update() {
+    update(time: number) {
 
     this.player.requestMove(this.cursors);
 
     this.player.updateMovement();
 
+    this.machine.update(time);
+
+    if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
+
+        this.machine.interact();
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.oilKey)) {
+    if (this.player.useOil()) {
+        this.machine.applyOil();
+    }
+}
+   
 }
 }
