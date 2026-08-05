@@ -1,5 +1,7 @@
-export interface Interactable {
+import Player from "./Player";
 
-    interact(): void;
+export default interface Interactable {
+
+    interact(player: Player): void;
 
 }

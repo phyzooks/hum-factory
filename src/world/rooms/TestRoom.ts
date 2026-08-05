@@ -3,76 +3,15 @@ import TileType from "../TileType";
 
 
 export const TestRoom: RoomData = {
-
    
     tiles: [
-
-    [
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL
-    ],
-
-    [
-        TileType.WALL,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.WALL
-    ],
-    [
-        TileType.WALL,
-        TileType.FLOOR,
-        TileType.MACHINE,
-        TileType.FLOOR,
-        TileType.MACHINE,
-        TileType.FLOOR,
-        TileType.WALL
-    ],
-    [
-        TileType.WALL,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.WALL
-    ],
-
-    [
-        TileType.WALL,
-        TileType.FLOOR,
-        TileType.MACHINE,
-        TileType.FLOOR,
-        TileType.MACHINE,
-        TileType.FLOOR,
-        TileType.WALL
-    ],
-    [
-        TileType.WALL,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.WALL
-    ],
-
-    [
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL,
-        TileType.WALL
-    ]
+    [1,6,1,1,1,1,1],
+    [1,0,0,0,0,0,1],
+    [1,0,2,0,2,0,1],
+    [1,0,0,0,0,0,1],
+    [1,0,2,0,2,0,1],
+    [1,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1]
 ]
 
 };

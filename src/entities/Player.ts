@@ -20,7 +20,8 @@ export default class Player extends Phaser.GameObjects.Rectangle {
     private targetX = 0;
     private targetY = 0;
     private moveSpeed = 2;
-    private oilAmount = 5;
+    private maxOil = 5;
+    private oilAmount = this.maxOil;
     private facing: Direction = Direction.DOWN;
 
    constructor(
@@ -44,6 +45,10 @@ export default class Player extends Phaser.GameObjects.Rectangle {
     this.row = row;
     scene.add.existing(this);
 }
+    public refillOil(): void {
+    this.oilAmount = this.maxOil;
+}
+
     public useOil(): boolean {
 
         if (this.oilAmount <= 0) {

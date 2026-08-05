@@ -5,6 +5,7 @@ import Room from "../world/Room";
 import { TestRoom } from "../world/rooms/TestRoom";
 import Tile from "../entities/Tile";
 import TileType from "../world/TileType";
+import RefillStation from "../entities/RefillStation";
 
 import {
     TILE_SIZE,
@@ -17,6 +18,7 @@ export default class GameScene extends Phaser.Scene {
     private interactKey!: Phaser.Input.Keyboard.Key;
     private oilKey!: Phaser.Input.Keyboard.Key;
     private machines: Machine[] = [];
+    private refillStations: RefillStation[] = [];
     private room!: Room;
     
     constructor() {
@@ -89,6 +91,19 @@ export default class GameScene extends Phaser.Scene {
             this.machines.push(machine);
 
             }
+            if (tile === TileType.REFILL_STATION) {
+
+                const refillStation = new RefillStation(
+                    this,
+                    col * TILE_SIZE + TILE_SIZE / 2,
+                    row * TILE_SIZE + TILE_SIZE / 2,
+                    col,
+                    row
+                );
+
+                this.refillStations.push(refillStation);
+
+            }
         }
     }
 }
@@ -159,9 +174,26 @@ export default class GameScene extends Phaser.Scene {
                 machine.getColumn()
             )
         ) {
-            machine.interact();
+            machine.interact(this.player);
             break;
         }
+        for (const refillStation of this.refillStations) {
+
+        if (
+            this.player.isAdjacentTo(
+                refillStation.getRow(),
+                refillStation.getColumn()
+            ) &&
+            this.player.isFacing(
+                refillStation.getRow(),
+                refillStation.getColumn()
+            )
+        ) {
+            refillStation.interact(this.player);
+            break;
+        }
+
+    }
     }
 }
     if (Phaser.Input.Keyboard.JustDown(this.oilKey)) {

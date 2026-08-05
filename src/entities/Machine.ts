@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
-import { Interactable } from "./Interactable";
+import  Interactable  from "./Interactable";
+import Player from "./Player";
 
 export default class Machine 
     extends Phaser.GameObjects.Rectangle 
@@ -47,7 +48,7 @@ export default class Machine
         }
 
     }
-    public interact(): void {
+    public interact(player: Player): void {
 
     let status = "Stable";
 
