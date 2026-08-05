@@ -16,7 +16,7 @@ export default class GameScene extends Phaser.Scene {
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     private interactKey!: Phaser.Input.Keyboard.Key;
     private oilKey!: Phaser.Input.Keyboard.Key;
-    private machine!: Machine;
+    private machines: Machine[] = [];
     private room!: Room;
     
     constructor() {
@@ -78,13 +78,15 @@ export default class GameScene extends Phaser.Scene {
 
             if (tile === TileType.MACHINE) {
 
-                this.machine = new Machine(
-                this,
-                col * TILE_SIZE + TILE_SIZE / 2,
-                row * TILE_SIZE + TILE_SIZE / 2,
-                col,
-                row
-            );
+                const machine = new Machine(
+            this,
+            col * TILE_SIZE + TILE_SIZE / 2,
+            row * TILE_SIZE + TILE_SIZE / 2,
+            col,
+            row
+        );
+
+            this.machines.push(machine);
 
             }
         }
@@ -139,26 +141,51 @@ export default class GameScene extends Phaser.Scene {
 
     this.player.updateMovement();
 
-    this.machine.update(time);
+    for (const machine of this.machines) {
+    machine.update(time);
+}
 
     if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
 
-        this.machine.interact();
+    for (const machine of this.machines) {
+
+        if (
+            this.player.isAdjacentTo(
+                machine.getRow(),
+                machine.getColumn()
+            ) &&
+            this.player.isFacing(
+                machine.getRow(),
+                machine.getColumn()
+            )
+        ) {
+            machine.interact();
+            break;
+        }
     }
-    if (Phaser.Input.Keyboard.JustDown(this.oilKey)) {if (
-    this.player.isAdjacentTo(
-        this.machine.getRow(),
-        this.machine.getColumn()
-    )
-) {
-
-    if (this.player.useOil()) {
-
-        this.machine.applyOil();
-
-    }
-
 }
-   }
+    if (Phaser.Input.Keyboard.JustDown(this.oilKey)) {
+
+    for (const machine of this.machines) {
+
+        if (
+            this.player.isAdjacentTo(
+                machine.getRow(),
+                machine.getColumn()
+            ) &&
+            this.player.isFacing(
+                machine.getRow(),
+                machine.getColumn()
+            )
+        ) {
+
+            if (this.player.useOil()) {
+                machine.applyOil();
+            }
+
+            break;
+        }
+    }
+}
 }
 }

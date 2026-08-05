@@ -8,7 +8,7 @@ export default class Machine
     private hum!: Phaser.Sound.BaseSound;
     private condition = 100;
     private lastWearTime = 0;
-    private wearInterval = 1000;
+    private wearInterval = 10000;
     public getCondition(): number {
     
     return this.condition;

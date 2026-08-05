@@ -2,6 +2,13 @@ import Phaser from "phaser";
 import { TILE_SIZE } from "../constants";
 import Room from "../world/Room";
 
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
+
 export default class Player extends Phaser.GameObjects.Rectangle {
 
     private column: number;
@@ -14,7 +21,8 @@ export default class Player extends Phaser.GameObjects.Rectangle {
     private targetY = 0;
     private moveSpeed = 2;
     private oilAmount = 5;
-    
+    private facing: Direction = Direction.DOWN;
+
    constructor(
     scene: Phaser.Scene,
     column: number,
@@ -29,6 +37,8 @@ export default class Player extends Phaser.GameObjects.Rectangle {
         TILE_SIZE - 4,
         0xffff00
         );
+
+        
     this.room = room;
     this.column = column;
     this.row = row;
@@ -69,6 +79,42 @@ export default class Player extends Phaser.GameObjects.Rectangle {
         return rowDifference + columnDifference === 1;
     }
     
+    public isFacing(
+    row: number,
+    column: number
+): boolean {
+
+    switch (this.facing) {
+
+        case Direction.UP:
+            return (
+                row === this.row - 1 &&
+                column === this.column
+            );
+
+        case Direction.DOWN:
+            return (
+                row === this.row + 1 &&
+                column === this.column
+            );
+
+        case Direction.LEFT:
+            return (
+                row === this.row &&
+                column === this.column - 1
+            );
+
+        case Direction.RIGHT:
+            return (
+                row === this.row &&
+                column === this.column + 1
+            );
+
+        default:
+            return false;
+    }
+}
+
     public requestMove(
     cursors: Phaser.Types.Input.Keyboard.CursorKeys
     ): void {
@@ -83,18 +129,28 @@ export default class Player extends Phaser.GameObjects.Rectangle {
         let newRow = this.row;
 
         if (cursors.left.isDown) {
+
+            this.facing = Direction.LEFT;
+            console.log("LEFT");
             newColumn--;
+
         }
 
         else if (cursors.right.isDown) {
+            this.facing = Direction.RIGHT;
+            console.log("RIGHT");
             newColumn++;
         }
 
         else if (cursors.up.isDown) {
+            this.facing = Direction.UP;
+            console.log("UP");
             newRow--;
         }
 
         else if (cursors.down.isDown) {
+            this.facing = Direction.DOWN;
+            console.log("DOWN");
             newRow++;
         }
 

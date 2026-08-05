@@ -29,9 +29,9 @@ export const TestRoom: RoomData = {
     [
         TileType.WALL,
         TileType.FLOOR,
+        TileType.MACHINE,
         TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
+        TileType.MACHINE,
         TileType.FLOOR,
         TileType.WALL
     ],
@@ -39,7 +39,7 @@ export const TestRoom: RoomData = {
         TileType.WALL,
         TileType.FLOOR,
         TileType.FLOOR,
-        TileType.MACHINE,
+        TileType.FLOOR,
         TileType.FLOOR,
         TileType.FLOOR,
         TileType.WALL
@@ -48,9 +48,9 @@ export const TestRoom: RoomData = {
     [
         TileType.WALL,
         TileType.FLOOR,
+        TileType.MACHINE,
         TileType.FLOOR,
-        TileType.FLOOR,
-        TileType.FLOOR,
+        TileType.MACHINE,
         TileType.FLOOR,
         TileType.WALL
     ],
