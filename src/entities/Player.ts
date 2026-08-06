@@ -107,7 +107,7 @@ export default class Player extends Phaser.GameObjects.Rectangle {
 
         if (this.oilAmount <= 0) {
 
-            console.log("Oil can empty");
+            //console.log("Oil can empty");
 
             return false;
 

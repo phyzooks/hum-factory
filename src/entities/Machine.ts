@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import {TILE_SIZE,} from "../constants";
 import  Interactable  from "./Interactable";
 import Player from "./Player";
+import GameScene from "../scenes/GameScene";
 
 export default class Machine 
     extends Phaser.GameObjects.Rectangle 
@@ -10,6 +11,7 @@ export default class Machine
     private condition = 100;
     private lastWearTime = 0;
     private wearInterval = 1000;
+    private gameScene: GameScene;
     public getCondition(): number {
     
     return this.condition;
@@ -19,6 +21,7 @@ export default class Machine
     private row: number;
     private column: number;
     private isSqueaking = false;
+    
     
     private updateSound(): void {
         
@@ -103,11 +106,16 @@ export default class Machine
         "Machine oiled. Condition:",
         this.condition + "%"
     );
+    this.gameScene.showFloatingText(
+        this.x,
+        this.y,
+        "OILED"
+    );
 
 }
 
     constructor(
-    scene: Phaser.Scene,
+    scene: GameScene,
     x: number,
     y: number,
     column: number,
@@ -125,7 +133,7 @@ export default class Machine
         
         this.column = column;
         this.row = row;
-        
+        this.gameScene = scene;
         scene.add.existing(this);
         this.statusLight = scene.add.circle(
             x + TILE_SIZE / 4,

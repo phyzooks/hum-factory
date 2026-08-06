@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import Interactable from "./Interactable";
 import Player from "./Player";
+import GameScene from "../scenes/GameScene";
+import { TILE_SIZE } from "../constants";
 
 export default class RefillStation 
     extends Phaser.GameObjects.Rectangle
@@ -8,36 +10,44 @@ export default class RefillStation
 
     private row: number;
     private column: number;
+    private gameScene: GameScene;
 
     constructor(
-        scene: Phaser.Scene,
-        x: number,
-        y: number,
-        column: number,
-        row: number
-    ) {
+    scene: GameScene,
+    x: number,
+    y: number,
+    column: number,
+    row: number
+)
+{
+    super(
+        scene,
+        x,
+        y,
+        TILE_SIZE,
+        TILE_SIZE,
+        0x00ffff
+    );
 
-        super(
-            scene,
-            x,
-            y,
-            32,
-            32,
-            0x00ffff
-        );
+    this.gameScene = scene;
 
-        this.row = row;
-        this.column = column;
+    this.column = column;
+    this.row = row;
 
-        scene.add.existing(this);
-
-    }
+    scene.add.existing(this);
+}
 
     public interact(player: Player): void {
 
     player.refillOil();
 
     console.log("Oil refilled!");
+
+    this.gameScene.showFloatingText(
+        this.x,
+        this.y,
+        "+OIL"
+    );
 
 }
 

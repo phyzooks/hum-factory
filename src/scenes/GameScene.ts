@@ -25,6 +25,40 @@ export default class GameScene extends Phaser.Scene {
     constructor() {
         super("GameScene");
     }
+
+    public showFloatingText(
+        x: number,
+        y: number,
+        message: string
+    ): void {
+
+        const text = this.add.text(
+            x,
+            y,
+            message,
+            {
+                color: "#ffffff",
+                fontSize: "12px"
+            }
+        );
+
+        this.tweens.add({
+
+            targets: text,
+
+            y: y - 20,
+
+            alpha: 0,
+
+            duration: 1000,
+
+            onComplete: () => {
+                text.destroy();
+            }
+
+        });
+    }
+
     private drawGrid(): void {
 
     const graphics = this.add.graphics();
@@ -148,15 +182,13 @@ export default class GameScene extends Phaser.Scene {
                 Phaser.Input.Keyboard.KeyCodes.O
             );
         this.oilText = this.add.text(
-            10,
-            10,
+            100,
+            200,
             "Oil: 5/5",
             {
                 color: "#ffffff"
             }
-        );
-        
-        
+        );      
     }
 
     update(time: number) {
@@ -169,8 +201,8 @@ export default class GameScene extends Phaser.Scene {
     );
 
     for (const machine of this.machines) {
-    machine.update(time);
-}
+        machine.update(time);
+    }
 
     if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
 
@@ -226,7 +258,16 @@ export default class GameScene extends Phaser.Scene {
             if (this.player.useOil()) {
                 machine.applyOil();
             }
+            else {
 
+                this.showFloatingText(
+                    this.player.x,
+                    this.player.y,
+                    "EMPTY"
+                );
+
+            }
+            
             break;
         }
     }
