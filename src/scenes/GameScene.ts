@@ -20,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
     private machines: Machine[] = [];
     private refillStations: RefillStation[] = [];
     private room!: Room;
+    private oilText!: Phaser.GameObjects.Text;
     
     constructor() {
         super("GameScene");
@@ -146,6 +147,14 @@ export default class GameScene extends Phaser.Scene {
             this.input.keyboard!.addKey(
                 Phaser.Input.Keyboard.KeyCodes.O
             );
+        this.oilText = this.add.text(
+            10,
+            10,
+            "Oil: 5/5",
+            {
+                color: "#ffffff"
+            }
+        );
         
         
     }
@@ -155,6 +164,9 @@ export default class GameScene extends Phaser.Scene {
     this.player.requestMove(this.cursors);
 
     this.player.updateMovement();
+    this.oilText.setText(
+        `Oil: ${this.player.getOilAmount()}/${this.player.getMaxOilAmount()}`
+    );
 
     for (const machine of this.machines) {
     machine.update(time);

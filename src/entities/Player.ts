@@ -11,6 +11,7 @@ enum Direction {
 
 export default class Player extends Phaser.GameObjects.Rectangle {
 
+    private facingIndicator!: Phaser.GameObjects.Arc;
     private column: number;
     private row: number;
     private room: Room;
@@ -44,7 +45,60 @@ export default class Player extends Phaser.GameObjects.Rectangle {
     this.column = column;
     this.row = row;
     scene.add.existing(this);
+    
+    this.facingIndicator = scene.add.circle(
+        this.x,
+        this.y,
+        3,
+        0x000000
+    );
+    this.updateFacingIndicator();
 }
+
+    private updateFacingIndicator(): void {
+
+    const offset = TILE_SIZE / 4;
+
+    switch (this.facing) {
+
+        case Direction.UP:
+
+            this.facingIndicator.setPosition(
+                this.x,
+                this.y - offset
+            );
+
+            break;
+
+        case Direction.DOWN:
+
+            this.facingIndicator.setPosition(
+                this.x,
+                this.y + offset
+            );
+
+            break;
+
+        case Direction.LEFT:
+
+            this.facingIndicator.setPosition(
+                this.x - offset,
+                this.y
+            );
+
+            break;
+
+        case Direction.RIGHT:
+
+            this.facingIndicator.setPosition(
+                this.x + offset,
+                this.y
+            );
+
+            break;
+    }
+}
+
     public refillOil(): void {
     this.oilAmount = this.maxOil;
 }
@@ -70,6 +124,14 @@ export default class Player extends Phaser.GameObjects.Rectangle {
 
     }
     
+    public getOilAmount(): number {
+        return this.oilAmount;
+    }
+
+    public getMaxOilAmount(): number {
+        return this.maxOil;
+    }
+
     public isAdjacentTo(
         row: number,
         column: number
@@ -85,9 +147,9 @@ export default class Player extends Phaser.GameObjects.Rectangle {
     }
     
     public isFacing(
-    row: number,
-    column: number
-): boolean {
+        row: number,
+        column: number
+    ): boolean {
 
     switch (this.facing) {
 
@@ -136,6 +198,7 @@ export default class Player extends Phaser.GameObjects.Rectangle {
         if (cursors.left.isDown) {
 
             this.facing = Direction.LEFT;
+            this.updateFacingIndicator();
             console.log("LEFT");
             newColumn--;
 
@@ -143,18 +206,21 @@ export default class Player extends Phaser.GameObjects.Rectangle {
 
         else if (cursors.right.isDown) {
             this.facing = Direction.RIGHT;
+            this.updateFacingIndicator();
             console.log("RIGHT");
             newColumn++;
         }
 
         else if (cursors.up.isDown) {
             this.facing = Direction.UP;
+            this.updateFacingIndicator();
             console.log("UP");
             newRow--;
         }
 
         else if (cursors.down.isDown) {
             this.facing = Direction.DOWN;
+            this.updateFacingIndicator();
             console.log("DOWN");
             newRow++;
         }
@@ -166,7 +232,7 @@ export default class Player extends Phaser.GameObjects.Rectangle {
 
             if (this.room.isWalkable(newColumn, newRow)) {
 
-                this.column = newColumn;
+            this.column = newColumn;
             this.row = newRow;
 
             this.targetX =
@@ -176,8 +242,9 @@ export default class Player extends Phaser.GameObjects.Rectangle {
             this.targetY =
                 this.row * TILE_SIZE +
                 TILE_SIZE / 2;
-
+            
             this.moving = true;
+           
             }
         }
 }
@@ -185,6 +252,7 @@ export default class Player extends Phaser.GameObjects.Rectangle {
 
         if (!this.moving) {
             return;
+            
         }
 
         if (this.x < this.targetX) {
@@ -207,7 +275,12 @@ export default class Player extends Phaser.GameObjects.Rectangle {
             this.x === this.targetX &&
             this.y === this.targetY
         ) {
+            
+            this.updateFacingIndicator();
             this.moving = false;
+            
         }
+        this.updateFacingIndicator();
+        
 }
 }

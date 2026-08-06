@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-
+import {TILE_SIZE,} from "../constants";
 import  Interactable  from "./Interactable";
 import Player from "./Player";
 
@@ -9,15 +9,17 @@ export default class Machine
     private hum!: Phaser.Sound.BaseSound;
     private condition = 100;
     private lastWearTime = 0;
-    private wearInterval = 10000;
+    private wearInterval = 1000;
     public getCondition(): number {
     
     return this.condition;
 
 }
+    private statusLight: Phaser.GameObjects.Arc;
     private row: number;
     private column: number;
     private isSqueaking = false;
+    
     private updateSound(): void {
         
     if (this.condition < 40) {
@@ -31,13 +33,30 @@ export default class Machine
     }
 
 }
+    private updateStatusLight(): void {
 
+    let color = 0x00ff00;
+
+    if (this.condition < 40) {
+
+        color = 0xff0000;
+
+    } else if (this.condition < 75) {
+
+        color = 0xffff00;
+
+    }
+
+    this.statusLight.setFillStyle(color);
+
+}
     public update(time: number): void {
 
         if (time - this.lastWearTime > this.wearInterval) {
 
             this.condition--;
             this.updateSound();
+            this.updateStatusLight();
             this.lastWearTime = time;
 
             console.log(
@@ -108,6 +127,12 @@ export default class Machine
         this.row = row;
         
         scene.add.existing(this);
+        this.statusLight = scene.add.circle(
+            x + TILE_SIZE / 4,
+            y - TILE_SIZE / 4,
+            3,
+            0x00ff00
+        );
         this.hum = scene.sound.add(
             "factory_hum",
             {
