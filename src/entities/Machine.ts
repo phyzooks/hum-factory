@@ -11,12 +11,12 @@ export default class Machine
     private condition = 100;
     private lastWearTime = 0;
     private wearInterval = 1000;
+    private lastProblemSound = 0;
+    private problemSoundDelay = 3000;
     private gameScene: GameScene;
-    public getCondition(): number {
-    
-    return this.condition;
-
-}
+    public getCondition(): number {    
+        return this.condition;
+        }
     private statusLight: Phaser.GameObjects.Arc;
     private row: number;
     private column: number;
@@ -24,16 +24,40 @@ export default class Machine
     
     
     private updateSound(): void {
-        
+
+    if (this.condition >= 75) {
+        return;
+    }
+
+    if (
+        Date.now() - this.lastProblemSound <
+        this.problemSoundDelay
+    ) {
+        return;
+    }
+
+
     if (this.condition < 40) {
-        console.log("Machine squeaks...");
-        this.isSqueaking = true;
-    }
-    if (this.condition >= 40) {
 
-        this.isSqueaking = false;
+        this.scene.sound.play(
+            "heavy_grind",
+            {
+                volume: 0.4
+            }
+        );
+
+    } else {
+
+        this.scene.sound.play(
+            "light_grind",
+            {
+                volume: 0.3
+            }
+        );
 
     }
+
+    this.lastProblemSound = Date.now();
 
 }
     private updateStatusLight(): void {
@@ -145,7 +169,7 @@ export default class Machine
             "factory_hum",
             {
                 loop: true,
-                volume: 0.5
+                volume: 0.2
             }
         );
 

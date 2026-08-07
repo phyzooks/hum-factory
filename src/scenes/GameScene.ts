@@ -7,9 +7,7 @@ import Tile from "../entities/Tile";
 import TileType from "../world/TileType";
 import RefillStation from "../entities/RefillStation";
 
-import {
-    TILE_SIZE,
-    } from "../constants";
+import {TILE_SIZE,} from "../constants";
 
 export default class GameScene extends Phaser.Scene {
 
@@ -61,92 +59,111 @@ export default class GameScene extends Phaser.Scene {
 
     private drawGrid(): void {
 
-    const graphics = this.add.graphics();
+        const graphics = this.add.graphics();
 
-    graphics.lineStyle(1, 0x444444);
+        graphics.lineStyle(1, 0x444444);
 
-    for (let x = 0; x <= this.room.width; x++) {
+        for (let x = 0; x <= this.room.width; x++) {
 
-        graphics.moveTo(
-            x * TILE_SIZE,
-            0
-        );
+            graphics.moveTo(
+                x * TILE_SIZE,
+                0
+            );
 
-        graphics.lineTo(
-            x * TILE_SIZE,
-            this.room.height * TILE_SIZE
-        );
-    }
+            graphics.lineTo(
+                x * TILE_SIZE,
+                this.room.height * TILE_SIZE
+            );
+        }
 
-    for (let y = 0; y <= this.room.height; y++) {
+        for (let y = 0; y <= this.room.height; y++) {
 
-        graphics.moveTo(
-            0,
-            y * TILE_SIZE
-        );
+            graphics.moveTo(
+                0,
+                y * TILE_SIZE
+            );
 
-        graphics.lineTo(
-            this.room.width * TILE_SIZE,
-            y * TILE_SIZE
-        );
-    }
+            graphics.lineTo(
+                this.room.width * TILE_SIZE,
+                y * TILE_SIZE
+            );
+        }
 
-    graphics.strokePath();
+        graphics.strokePath();
     }
 
     private drawRoom(): void {
 
-    for (let row = 0; row < this.room.tiles.length; row++) {
+        for (let row = 0; row < this.room.tiles.length; row++) {
 
-        for (let col = 0; col < this.room.tiles[row].length; col++) {
+            for (let col = 0; col < this.room.tiles[row].length; col++) {
 
-            const tile = this.room.tiles[row][col];
+                const tile = this.room.tiles[row][col];
 
-            if (tile === TileType.WALL) {
+                if (tile === TileType.WALL) {
 
-                new Tile(
-                this,
-                col * TILE_SIZE + TILE_SIZE / 2,
-                row * TILE_SIZE + TILE_SIZE / 2,
-                0x555555
-            );
-
-            }
-
-            if (tile === TileType.MACHINE) {
-
-                const machine = new Machine(
-            this,
-            col * TILE_SIZE + TILE_SIZE / 2,
-            row * TILE_SIZE + TILE_SIZE / 2,
-            col,
-            row
-        );
-
-            this.machines.push(machine);
-
-            }
-            if (tile === TileType.REFILL_STATION) {
-
-                const refillStation = new RefillStation(
+                    new Tile(
                     this,
                     col * TILE_SIZE + TILE_SIZE / 2,
                     row * TILE_SIZE + TILE_SIZE / 2,
-                    col,
-                    row
+                    0x555555
                 );
 
-                this.refillStations.push(refillStation);
+                }
 
+                if (tile === TileType.MACHINE) {
+
+                    const machine = new Machine(
+                this,
+                col * TILE_SIZE + TILE_SIZE / 2,
+                row * TILE_SIZE + TILE_SIZE / 2,
+                col,
+                row
+            );
+
+                this.machines.push(machine);
+
+                }
+                if (tile === TileType.REFILL_STATION) {
+
+                    const refillStation = new RefillStation(
+                        this,
+                        col * TILE_SIZE + TILE_SIZE / 2,
+                        row * TILE_SIZE + TILE_SIZE / 2,
+                        col,
+                        row
+                    );
+
+                    this.refillStations.push(refillStation);
+
+                }
             }
         }
     }
-}
     preload() {
 
         this.load.audio(
             "factory_hum",
             "assets/audio/factory_hum.wav"
+        );
+        this.load.audio(
+            "light_grind",
+            "assets/audio/light_grind.wav"
+        );
+
+        this.load.audio(
+            "heavy_grind",
+            "assets/audio/heavy_grind.wav"
+        );
+
+        this.load.audio(
+            "machine_oiled",
+            "assets/audio/machine_oiled.wav"
+        );
+
+        this.load.audio(
+            "refill",
+            "assets/audio/refill.wav"
         );
 
     }
