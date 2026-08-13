@@ -165,6 +165,10 @@ export default class GameScene extends Phaser.Scene {
             "refill",
             "assets/audio/refill.wav"
         );
+        this.load.audio(
+            "empty",
+            "assets/audio/empty.wav"
+        );
 
     }
     create() {
@@ -274,6 +278,9 @@ export default class GameScene extends Phaser.Scene {
 
             if (this.player.useOil()) {
                 machine.applyOil();
+                this.sound.play("machine_oiled",{
+                volume: 0.35
+            });
             }
             else {
 
@@ -282,6 +289,9 @@ export default class GameScene extends Phaser.Scene {
                     this.player.y,
                     "EMPTY"
                 );
+                this.sound.play("empty",{
+                volume: 0.5
+            });
 
             }
             

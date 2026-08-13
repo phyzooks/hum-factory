@@ -42,7 +42,7 @@ export default class Machine
         this.scene.sound.play(
             "heavy_grind",
             {
-                volume: 0.4
+                volume: 0.35
             }
         );
 
@@ -51,15 +51,17 @@ export default class Machine
         this.scene.sound.play(
             "light_grind",
             {
-                volume: 0.3
+                volume: 0.25
             }
         );
 
     }
 
     this.lastProblemSound = Date.now();
-
+    this.problemSoundDelay =
+        Phaser.Math.Between(2000, 5000);
 }
+
     private updateStatusLight(): void {
 
     let color = 0x00ff00;

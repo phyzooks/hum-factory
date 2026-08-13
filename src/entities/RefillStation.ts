@@ -40,7 +40,7 @@ export default class RefillStation
     public interact(player: Player): void {
 
     player.refillOil();
-
+    
     console.log("Oil refilled!");
 
     this.gameScene.showFloatingText(
@@ -48,6 +48,9 @@ export default class RefillStation
         this.y,
         "+OIL"
     );
+    this.gameScene.sound.play("refill",{
+                volume: 0.35
+            });
 
 }
 
