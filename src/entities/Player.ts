@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { TILE_SIZE } from "../constants";
 import Room from "../world/Room";
 
-enum Direction {
+export enum Direction {
     UP,
     DOWN,
     LEFT,
@@ -248,6 +248,67 @@ export default class Player extends Phaser.GameObjects.Rectangle {
             }
         }
 }
+
+    public requestDirection(direction: Direction): void {
+        this.facing = direction;
+        this.updateFacingIndicator();
+    if (this.moving) {
+        return;
+    }
+
+    if (Date.now() - this.lastMove < this.moveDelay) {
+        return;
+    }
+
+    
+    let newColumn = this.column;
+    let newRow = this.row;
+
+    switch (direction) {
+
+        case Direction.LEFT:
+            newColumn--;
+            break;
+
+        case Direction.RIGHT:
+            newColumn++;
+            break;
+
+        case Direction.UP:
+            newRow--;
+            break;
+
+        case Direction.DOWN:
+            newRow++;
+            break;
+    }
+
+    if (
+        newColumn !== this.column ||
+        newRow !== this.row
+    ) {
+
+        if (this.room.isWalkable(newColumn, newRow)) {
+
+            this.column = newColumn;
+            this.row = newRow;
+
+            this.targetX =
+                this.column * TILE_SIZE +
+                TILE_SIZE / 2;
+
+            this.targetY =
+                this.row * TILE_SIZE +
+                TILE_SIZE / 2;
+
+            this.updateFacingIndicator();
+
+            this.moving = true;
+            this.lastMove = Date.now();
+        }
+    }
+}
+
     public updateMovement(): void {
 
         if (!this.moving) {
