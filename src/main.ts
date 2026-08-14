@@ -11,6 +11,11 @@ const config: Phaser.Types.Core.GameConfig = {
 
     pixelArt: true,
 
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+
     scene: [GameScene]
 };
 
